@@ -1,0 +1,16 @@
+sudo ./goodranges /dev/sdc 150000 0 5000 150 15000
+
+Checking blocks 153277800 to 153292800
+Checking for bad blocks (read-only test): done                                                 
+Pass completed, 0 bad blocks found. (0/0/0 errors)
+Checking blocks 153431400 to 153446400
+Checking for bad blocks (read-only test): done                                                 
+Pass completed, 0 bad blocks found. (0/0/0 errors)
+
+
+DONE! Good ranges are:
+       0 - 42854400
+63436800 - 89548800
+90163200 - 96000000
+96153600 - 153446400
+
