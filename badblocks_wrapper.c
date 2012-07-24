@@ -1,3 +1,11 @@
+/*
+ * badblocks_wrapper.c --- Wrap the over system utility badblocks, is designed
+ * to be clear about the options available in the original utility.
+ *
+ * Copyright (C) 2012 Roman Tereshin.  This file may be
+ * redistributed under the terms of the GNU Public License.
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -9,17 +17,19 @@
 #define COMMAND_BUF_SIZE 1024
 #define INTEGER_BUF_SIZE 32
 #define BADBLOCK_ERROR 64
+#define FALSE 0
 
+/* This is a experimental utility, so that the edit options of your choice */
 const char *badblocks_options[] = {
 	BADBLOCKS_NAME
-	, " -e 2 "
-	, " -c 64 "
-	, " -b 1024 "
-	, " -s "
-	, " -v "
-	, " -o "
-	, IPC_FILE
-	, NULL   /* end of list */
+	, " -e 2 "     /* max bad block count */
+	, " -c 64 "    /* number of blocks */
+	, " -b 1024 "  /* block-size */
+	, " -s "       /* show progress */
+	, " -v "       /* verbose mode */
+	, " -o "       /* write the list of bad blocks */
+	, IPC_FILE     /* ... to the specified file */
+	, NULL  /* end of list */
 };
 
 const char *modes[] = {
@@ -33,14 +43,17 @@ int cat_integer_option(char *dest, int value)
 	return sprintf(dest + strlen(dest), " %d ", value);
 }
 
-bool was_errors()
+/*
+ * IPC_FILE is not empty? If so, the latest operation found bad blocks 
+ */
+int was_errors()
 {
 	FILE *f;
 	if ((f = fopen(IPC_FILE, "r")) == NULL) {
-		return false;
+		return FALSE;
 	}
 	fseek(f, 0, SEEK_END);
-	bool result = ftell(f) != 0;
+	int result = ftell(f) != 0;
 	fclose(f);
 	return result;
 }

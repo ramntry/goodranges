@@ -1,3 +1,11 @@
+/**
+ * @file goodranges.cpp Methods for quick search of continuous non-damaged
+ * ranges of HDD
+ *
+ * @copy Copyright (C) 2012 @author Roman Tereshin. This file may be
+ * redistributed under the terms of the GNU Public License.
+ */
+
 #include <cstdio>
 
 #include "goodranges.h"
@@ -7,6 +15,7 @@ using namespace std;
 
 bool testFull(string const &deviceName, Range const &range)
 {
+	/* This code correctly work, but not always suitable. Uncomment, if you want */
 //	printf("RUN FULL TEST: applicant %8d - %8d\n", range.second, range.first);
 //	return badblocks(deviceName.c_str(), ReadOnly, range.second, range.first) == 0; 
 	return true;
@@ -45,6 +54,8 @@ vector<Range> findGoodRanges(string const &deviceName, int lastBlock, int firstB
 			currentApplicant = Range(rightEdge, rightEdge);
 		}
 	}
+	/* If encapsulate the code of this file in the class will be a lot
+	   more possibilities refactor this code */
 	if (rangeSize(currentApplicant) >= minRangeSize
 			&& testFull(deviceName, currentApplicant)) {
 		results.push_back(currentApplicant);
